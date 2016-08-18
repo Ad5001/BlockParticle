@@ -5,9 +5,10 @@ use pocketmine\command\Command;
 use pocketmine\level\Position;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
-use pocketmine\level\particle\{AngryVillagerParticle,BubbleParticle,CriticalParticle,DestroyBlockParticle,DustParticle,EnchantmentTableParticle,EnchantParticle,EntityFlameParticle,ExplodeParticle,FlameParticle,HappyVillagerParticle,HeartParticle,InkParticle,InstantEnchantParticle,ItemBreakParticle,LavaDripParticle,LavaParticle,MobSpellParticle,PortalParticle,RainSplashParticle,RedstoneParticle,SmokeParticle,SpellParticle,SplashParticle,SporeParticle,TerrainParticle,WaterDripParticle,WaterParticle,WhiteSmokeParticle};
+use pocketmine\level\particle\{AngryVillagerParticle,BubbleParticle,CriticalParticle,DestroyBlockParticle,DustParticle,EnchantmentTableParticle,EnchantParticle,EntityFlameParticle,LargeExplodeParticle,FlameParticle,HappyVillagerParticle,HeartParticle,InkParticle,InstantEnchantParticle,ItemBreakParticle,LavaDripParticle,LavaParticle,MobSpellParticle,PortalParticle,RainSplashParticle,RedstoneParticle,SmokeParticle,SpellParticle,SplashParticle,SporeParticle,TerrainParticle,WaterDripParticle,WaterParticle,WhiteSmokeParticle};
 use pocketmine\item\Item;
 use pocketmine\block\Block;
+use pocketmine\math\Vector3;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Server;
@@ -20,16 +21,16 @@ class Main extends PluginBase implements Listener{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), 10);
         $this->cfg = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
-        if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
-            $this->getLogger()->critial("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
+        if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
+            $this->getLogger()->critical("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
             $this->setEnabled(false);
         }
     }
 
 
     public function onDisable() {
-        if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
-            $this->getLogger()->critial("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
+        if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
+            $this->getLogger()->critical("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
             $this->setEnabled(false);
         }
         file_put_contents($this->getDataFolder() . "config.yml", yaml_emit($this->cfg));
@@ -37,7 +38,7 @@ class Main extends PluginBase implements Listener{
 
 
     public function onBlockPlace(\pocketmine\event\block\BlockPlaceEvent $event) {
-        if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
+        if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
             $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
             $this->setEnabled(false);
         }
@@ -53,7 +54,7 @@ class Main extends PluginBase implements Listener{
                 $event->setCancelled();
             }
         }
-        if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
+        if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
             $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
             $this->setEnabled(false);
         }
@@ -68,7 +69,7 @@ class Main extends PluginBase implements Listener{
                 unset($this->cfg[$coords]);
             }
         }
-        if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
+        if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
             $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
             $this->setEnabled(false);
         }
@@ -85,7 +86,7 @@ class Main extends PluginBase implements Listener{
         if(!isset($args[1])) {
             $args[1] = "true";
         }
-        if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
+        if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
             $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
             $this->setEnabled(false);
         }
@@ -193,14 +194,14 @@ class Main extends PluginBase implements Listener{
     foreach($this->cfg as $coords => $part) {
             $pos = $this->posFromStr($coords);
             $b = $sender;
-            if($pos->x == $b->x and $pos->y == $b->y - 1 and $pos->z == $b->z and !$e->isCancelled() and $e->getPlayer()->hasPermission("blockparticle.remove")) {
+            if($pos->x == round($b->x) and $pos->y == round($b->y - 1) and $pos->z == round($b->z) and $sender->hasPermission("blockparticle.remove")) {
                 unset($this->cfg[$coords]);
-                if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
+                if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
                     $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
                     $this->setEnabled(false);
                 }
-                if($sender->getLevel()->getBlock(new Vector3($b->x, $b->y - 1, $b->z))->getId() == 95) {
-                    $sender->getLevel()->setBlock(new Vector3($b->x, $b->y - 1, $b->z), new Block(0, 0));
+                if($sender->getLevel()->getBlock(new Vector3($b->x, ($b->y - 1), $b->z))->getId() == 95) {
+                    $sender->getLevel()->setBlock(new Vector3($b->x, ($b->y - 1), $b->z), new Block(0, 0));
                 }
                 $sender->sendMessage("Removed block.");
             }
@@ -238,9 +239,9 @@ class ParticleTask extends \pocketmine\scheduler\PluginTask {
         try {
             unset($this->main->cfg["version"]);
         } catch(\Error $e) {
-            if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
-            $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
-            $this->setEnabled(false);
+            if($this->main->getDescription()->getAuthors()[0] !== "Ad5001" or $this->main->getDescription()->getName() !== "BlockParticle") {
+            $this->main->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
+            $this->main->setEnabled(false);
         }}
         foreach($this->main->cfg as $spos => $particle) {
             if(strpos($spos, "_") == false) {
@@ -266,6 +267,7 @@ class ParticleTask extends \pocketmine\scheduler\PluginTask {
             $particle = new DestroyBlockParticle($pos, new Block($block, $damage));
             break;
             case "dust":
+            $particle = new DustParticle($pos, 0, 0, 0);
             break;
             case "enchantmenttable":
             case "enchantment_table":
@@ -281,7 +283,7 @@ class ParticleTask extends \pocketmine\scheduler\PluginTask {
             break;
             case "flame2":
             case "flame":
-            $particle = new CFlameParticle($pos);
+            $particle = new FlameParticle($pos);
             break;
             case "happy_villager";
             case "happyvillager":
@@ -302,7 +304,7 @@ class ParticleTask extends \pocketmine\scheduler\PluginTask {
             $particle = new ItemBreakParticle($pos, Item::get($block, $damage));
             break;
             case "explode":
-            $particle = new ExplodeParticle($pos);
+            $particle = new LargeExplodeParticle($pos);
             break;
             case "lava_drip":
             case 'lavadrip':
@@ -362,9 +364,9 @@ class ParticleTask extends \pocketmine\scheduler\PluginTask {
 			  );
 			$pos->getLevel()->addParticle($particle);
             }
-            if($this->getDescription()->getAuthors() !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
-            $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
-            $this->setEnabled(false);
+            if($this->main->getDescription()->getAuthors()[0] !== "Ad5001" or $this->main->getDescription()->getName() !== "BlockParticle") {
+            $this->main->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
+            $this->main->setEnabled(false);
             }
         }
     }

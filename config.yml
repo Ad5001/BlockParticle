@@ -1,9 +1,34 @@
 ---
-134_4_128_world: heart
 141_7_126_world: portal
 141_6_126_world: portal
 141_5_126_world: portal
 141_5_125_world: portal
 141_7_125_world: portal
 141_6_125_world: portal
+145_21_120_world: whitesmoke
+144_21_121_world: whitesmoke
+146_22_122_world: whitesmoke
+147_22_119_world: whitesmoke
+146_22_120_world: whitesmoke
+139_4_118_world: flame2
+145_4_127_world: lavadrip
+145_4_131_world: lavadrip
+145_5_132_world: lavadrip
+145_6_132_world: lavadrip
+145_6_131_world: lavadrip
+145_5_131_world: lavadrip
+154_7_122_world: waterdrip
+153_7_122_world: waterdrip
+153_6_122_world: waterdrip
+153_5_122_world: waterdrip
+154_6_122_world: waterdrip
+154_5_122_world: waterdrip
+170_7_121_world: lavadrip
+170_6_121_world: lavadrip
+145_4_132_world: lavadrip
+170_5_121_world: lavadrip
+169_7_121_world: lavadrip
+169_6_121_world: lavadrip
+169_5_121_world: lavadrip
+160_4_136_world: redstone
 ...
