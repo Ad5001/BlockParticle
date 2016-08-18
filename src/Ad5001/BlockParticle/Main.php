@@ -66,6 +66,8 @@ class Main extends PluginBase implements Listener{
             case "destroy_block":
             if(isset($args[2])) {
                 $args[0] = strtolower($args[0]) . ":" . Item::fromString($args[2])->getId() . ":" . Item::fromString($args[2])->getDamage();
+            } else {
+                $args[0] = strtolower($args[0]) . ":1:0";
             }
             break;
             case "dust":
@@ -96,6 +98,8 @@ class Main extends PluginBase implements Listener{
             case "item_break":
             if(isset($args[2])) {
                 $args[0] = strtolower($args[0]) . ":" . Item::fromString($args[2])->getId() . ":" . Item::fromString($args[2])->getDamage();
+            } else {
+                $args[0] = strtolower($args[0]) . ":1:0";
             }
             break;
             case "explode":
@@ -126,6 +130,8 @@ class Main extends PluginBase implements Listener{
             case "terrain":
             if(isset($args[2])) {
                 $args[0] = strtolower($args[0]) . ":" . Item::fromString($args[2])->getId() . ":" . Item::fromString($args[2])->getDamage();
+            } else {
+                $args[0] = strtolower($args[0]) . ":1:0";
             }
             break;
             case "waterdrip":
