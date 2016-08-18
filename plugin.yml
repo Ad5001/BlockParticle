@@ -1,0 +1,20 @@
+---
+name: BlockParticle
+author:  Ad5001
+version: 1.0
+api: [2.0.0]
+main: Ad5001\BlockParticle\Main
+commands:
+ getparticleblock:
+   description: "Get a particle block !"
+   usage: "/gpb <particle> [true | false (solid or not)]"
+   permission: particleblock.get
+   aliases: [gpb]
+permissions: 
+ particleblock.get:
+   default: op
+ particleblock.place:
+   default: op
+ particleblock.remove:
+   default: op
+...
