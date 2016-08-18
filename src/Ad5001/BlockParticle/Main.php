@@ -195,7 +195,7 @@ class Main extends PluginBase implements Listener{
             $pos = $this->posFromStr($coords);
             $b = $sender;
             if($pos->x == round($b->x) and $pos->y == round($b->y - 1) and $pos->z == round($b->z) and $sender->hasPermission("blockparticle.remove")) {
-                unset($this->cfg[$coords]);
+                unset($this->cfg[$coords]); ²a&&qa
                 if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
                     $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
                     $this->setEnabled(false);
