@@ -3,18 +3,24 @@ name: BlockParticle
 author:  Ad5001
 version: 1.0
 api: [2.0.0]
+load: POSTWORLD
 main: Ad5001\BlockParticle\Main
 commands:
  getparticleblock:
    description: "Get a particle block !"
    usage: "/gpb <particle> [true | false (solid or not)]"
-   permission: particleblock.get
+   permission: blockparticle.get
    aliases: [gpb]
+ deleteparticleblock:
+   description: "Delete the particleblock which is underneath you."
+   usage: "/dpb"
+   permission: blockparticle.remove
+   aliases: [dpb]
 permissions: 
- particleblock.get:
+ blockparticle.get:
    default: op
- particleblock.place:
+ blockparticle.place:
    default: op
- particleblock.remove:
+ blockparticle.remove:
    default: op
 ...
