@@ -10,6 +10,7 @@ use pocketmine\item\Item;
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\NBT;
+use pocketmine\nbt\JsonNBTParser;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Server;
 use pocketmine\Player;
@@ -184,7 +185,7 @@ class Main extends PluginBase implements Listener{
             break;
         }
         $b = Item::get(Item::EMERALD_BLOCK, 0, 1);
-        $b->setNamedTag(NBT::parseJSON("{display:{Name:\"§r§aParticleBlock " . strtolower($args[0]) . " | '". ($args[1] == "true" ? "Solid" : "Transparent") . "\"},isSolid:\"$args[1]\",particle:\"" . strtolower($args[0]) . "\"}"));
+        $b->setNamedTag(JsonNBTParser::parseJSON("{display:{Name:\"§r§aParticleBlock " . strtolower($args[0]) . " | '". ($args[1] == "true" ? "Solid" : "Transparent") . "\"},isSolid:\"$args[1]\",particle:\"" . strtolower($args[0]) . "\"}"));
         $sender->getInventory()->addItem($b);
         $sender->sendMessage("You got yo're particle block !");
         return true;
