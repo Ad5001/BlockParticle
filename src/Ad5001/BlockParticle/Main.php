@@ -77,7 +77,7 @@ class Main extends PluginBase implements Listener{
  
 
 
- public function onCommand(CommandSender $sender, Command $cmd, $label, array $args){
+ public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool{
    switch($cmd->getName()){
     case "getparticleblock":
     if(!isset($args[0])) {
@@ -235,7 +235,7 @@ class ParticleTask extends \pocketmine\scheduler\PluginTask {
     }
 
 
-    public function onRun($tick) {
+    public function onRun(int $tick) {
         try {
             unset($this->main->cfg["version"]);
         } catch(\Error $e) {
