@@ -10,6 +10,7 @@ use pocketmine\item\Item;
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\NBT;
+use pocketmine\nbt\JsonNBTParser;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Server;
 use pocketmine\Player;
@@ -77,7 +78,7 @@ class Main extends PluginBase implements Listener{
  
 
 
- public function onCommand(CommandSender $sender, Command $cmd, $label, array $args){
+ public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool{
    switch($cmd->getName()){
     case "getparticleblock":
     if(!isset($args[0])) {
@@ -184,7 +185,7 @@ class Main extends PluginBase implements Listener{
             break;
         }
         $b = Item::get(Item::EMERALD_BLOCK, 0, 1);
-        $b->setNamedTag(NBT::parseJSON("{display:{Name:\"§r§aParticleBlock " . strtolower($args[0]) . " | '". ($args[1] == "true" ? "Solid" : "Transparent") . "\"},isSolid:\"$args[1]\",particle:\"" . strtolower($args[0]) . "\"}"));
+        $b->setNamedTag(JsonNBTParser::parseJSON("{display:{Name:\"§r§aParticleBlock " . strtolower($args[0]) . " | '". ($args[1] == "true" ? "Solid" : "Transparent") . "\"},isSolid:\"$args[1]\",particle:\"" . strtolower($args[0]) . "\"}"));
         $sender->getInventory()->addItem($b);
         $sender->sendMessage("You got yo're particle block !");
         return true;
@@ -195,7 +196,7 @@ class Main extends PluginBase implements Listener{
             $pos = $this->posFromStr($coords);
             $b = $sender;
             if($pos->x == round($b->x) and $pos->y == round($b->y - 1) and $pos->z == round($b->z) and $sender->hasPermission("blockparticle.remove")) {
-                unset($this->cfg[$coords]); ²a&&qa
+                unset($this->cfg[$coords]);
                 if($this->getDescription()->getAuthors()[0] !== "Ad5001" or $this->getDescription()->getName() !== "BlockParticle") {
                     $this->getServer()->broadcastMessage("Fatal error! Unallowed use of BlockParticle by Ad5001 (@Ad5001P4F) ! Please refer to the LICENSE section 2 article 2b for more details.");
                     $this->setEnabled(false);
@@ -235,7 +236,7 @@ class ParticleTask extends \pocketmine\scheduler\PluginTask {
     }
 
 
-    public function onRun($tick) {
+    public function onRun(int $tick) {
         try {
             unset($this->main->cfg["version"]);
         } catch(\Error $e) {
